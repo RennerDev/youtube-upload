@@ -59,30 +59,7 @@ def open_link(url):
 def get_progress_info():
     """Return a function callback to update the progressbar."""
     progressinfo = struct("ProgressInfo", ["callback", "finish"])
-
-    if progressbar:
-        bar = progressbar.ProgressBar(widgets=[
-            progressbar.Percentage(),
-            ' ', progressbar.Bar(),
-            ' ', progressbar.FileTransferSpeed(),
-            ' ', progressbar.DataSize(), '/', progressbar.DataSize('max_value'),
-            ' ', progressbar.Timer(),
-            ' ', progressbar.AdaptiveETA(),
-        ])
-        def _callback(total_size, completed):
-            if not hasattr(bar, "next_update"):
-                if hasattr(bar, "maxval"):
-                    bar.maxval = total_size
-                else:
-                    bar.max_value = total_size
-                bar.start()
-            bar.update(completed)
-        def _finish():
-            if hasattr(bar, "next_update"):
-                return bar.finish()
-        return progressinfo(callback=_callback, finish=_finish)
-    else:
-        return progressinfo(callback=None, finish=lambda: True)
+    return progressinfo(callback=None, finish=lambda: True)
 
 def get_category_id(category):
     """Return category ID from its name."""
